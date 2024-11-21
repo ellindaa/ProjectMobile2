@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TutorialDetikNews</string>
+    <string name="app_name">NewsApp</string>
     <string name="menu_terbaru">Terbaru</string>
     <string name="menu_beritautama">Berita Utama</string>
     <string name="menu_antarkansemangat">#AntarkanSemangat</string>
