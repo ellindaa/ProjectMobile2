@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        // menampilkan berita headline
         if (BeritaModel.newslist.isNotEmpty()) {
             val headline = BeritaModel.newslist.last()
             binding.tvwTitleHeadLine.text = headline.title
@@ -35,6 +36,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // mengatur recycler view
+        // recycler view adalah komponen UI untuk menampilkan daftar data dalam bentuk daftar atau grid    
         binding.rcvDaftarberita.layoutManager = LinearLayoutManager(this)
 
         newsAdapter = NewsAdapter(this, BeritaModel.newslist)
