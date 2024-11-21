@@ -2,9 +2,12 @@ package id.ellinda.newsapp.BeritaAdapter
 
 import id.ellinda.newsapp.R
 
+// kelas ini merepresentasikan model data untuk berita, memiliki 3 properti (title, desc, photo)
 class news(val title:String, val desc:String, val photo:Int)
 
-object BeritaModel {
+
+object BeritaModel { // singleton yang menyimpan data berita
+    // singleton adalah pola desain yang memastikan bahwa hanya ada satu objek dari suatu kelas dan menyediakan akses global ke objek tersebut
     val newslist = listOf<news>(
         news(
             "Pasar ramai dikunjungi warga meskipun wabah covid 19 belum dinyatakan usai",
