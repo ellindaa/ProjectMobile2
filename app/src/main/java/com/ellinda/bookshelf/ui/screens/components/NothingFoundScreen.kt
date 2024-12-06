@@ -22,17 +22,20 @@ fun NothingFoundScreen(
     modifier: Modifier = Modifier
 ) {
     Column(
+        // menyusun elemen UI secara vertikal
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
+            // menampilkan gambar yg menunjukkan bahwa tdk ada data g ditemukan
             modifier = Modifier.fillMaxWidth(),
             painter = painterResource(id = R.drawable.ic_not_found),
             contentDescription = null,
             contentScale = ContentScale.Fit
         )
         Text(
+            // menampilkan pesan bahwa tidak ada catatan yang ditemukan 
             stringResource(R.string.no_records_found_msg),
             fontWeight = FontWeight.Bold
         )
