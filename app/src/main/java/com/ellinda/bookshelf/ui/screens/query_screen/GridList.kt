@@ -74,13 +74,9 @@ private fun GridItem(
 
     Card(
         onClick = { onDetailsClick(book) },
-        //elevation = CardDefaults.elevatedCardElevation(),
         modifier = modifier
             .fillMaxWidth()
-            //.border(2.dp, Color.Green)
             .padding(8.dp)
-            //.aspectRatio(1f),
-
     ) {
         Column(
             modifier = Modifier
@@ -104,14 +100,8 @@ private fun GridItem(
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
-                    //.border(1.dp, Color.Blue),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                // Notes: Question: I would like onFavoriteClick to be hoisted up.. all the way to QueryScreen
-                //  because I do not like passing the viewModel this far down.
-                //  I am not sure how to get this done. To me it seems that
-                //  I would have to pass the book `onFavoriteClick(book)` up, and favorite state
-                //  would have to be created hight up too... just not sure how...
                 FavoriteButton(
                     favorite = favorite,
                     onFavoriteClick = {
@@ -190,33 +180,3 @@ fun ExpandButton(
     }
 }
 
-
-//@Preview(
-//    showBackground = true,
-//    showSystemUi = true
-//)
-//@Composable
-//fun CardPreview() {
-//    val mockData =
-//        Book(
-//        id = "123",
-//        volumeInfo = VolumeInfo(
-//            title = "A book",
-//            description = "Caniss ortum, tanquam bassus exemplar.",
-//            publishedDate = "11/11/2011",
-//            authors =  listOf("AAA","aaa"),
-//            publisher = "John Carter",
-//            subtitle = "Cunu litist",
-//            imageLinks = null,
-//        ),
-//       saleInfo = SaleInfo(
-//            country = "USA",
-//            isEbook = false,
-//            listPrice = ListPrice(
-//                amount = 2.22f,
-//                currency = "US Dollar"
-//            )
-//       ),
-//    )
-//    GridItem(book = mockData, onDetailsClick = {})
-//}
