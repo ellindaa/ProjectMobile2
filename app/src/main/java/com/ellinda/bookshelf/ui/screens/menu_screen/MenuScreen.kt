@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import com.ellinda.bookshelf.R
 
 @Composable
+// tampilan menu
 fun MenuScreen(
     onSearchClick: () -> Unit,
     onFavClick: () -> Unit
