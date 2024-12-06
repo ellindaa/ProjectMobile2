@@ -14,8 +14,9 @@ import com.ellinda.bookshelf.ui.screens.components.LoadingScreen
 import com.ellinda.bookshelf.ui.screens.query_screen.*
 
 @Composable
+// fungsi komposabel yang mendefinisikan layar favorit
 fun FavoritesScreen(
-    viewModel: QueryViewModel,
+    viewModel: QueryViewModel, 
     bookshelfUiState: QueryUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier
