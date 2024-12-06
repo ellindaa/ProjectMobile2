@@ -1,37 +1,21 @@
-/*
- * Copyright (C) 2023 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package id.ellinda.marsphotos.data
 
 import id.ellinda.marsphotos.model.MarsPhoto
 import id.ellinda.marsphotos.network.MarsApiService
 
-/**
- * Repository that fetch mars photos list from marsApi.
- */
+
 interface MarsPhotosRepository {
-    /** Fetches list of MarsPhoto from marsApi */
+    // suspend, menunjukkan bahwa fungsi ini dapat ditangguhkan yang berarti ia dapat dijalankan secara asinkron
+    // return type, mengembalikan daftar list dari objek MarsPhoto, ketika memanggil fungsi ini akan mendapatkan koleksi foto Mars.
     suspend fun getMarsPhotos(): List<MarsPhoto>
 }
 
-/**
- * Network Implementation of Repository that fetch mars photos list from marsApi.
- */
+// kelas ini adalah implementasi dari interface MarsPhotoRepository
+// marsApiService adalah objek dari MarsApiService yang digunakan untuk mengambil data dari API
 class NetworkMarsPhotosRepository(
     private val marsApiService: MarsApiService
 ) : MarsPhotosRepository {
-    /** Fetches list of MarsPhoto from marsApi*/
+    // override menunjukkan bahwa kita mengimplementasikan fungsi dari interface MarsPhotosRepository
+    // fungsi getMarsPhotos() memanggil fungsi marsApiService.getPhotos() yang merupakan metode dari MarsApiService untuk melakukan permintaan ke API dan mengembalikan daftar foto Mars.
     override suspend fun getMarsPhotos(): List<MarsPhoto> = marsApiService.getPhotos()
 }
