@@ -2,13 +2,11 @@ package com.ellinda.bookshelf.data
 
 import com.ellinda.bookshelf.model.Book
 
-/**
- * Repository retrieves volume data from underlying data source.
- */
+// interface dari repository ini untuk mengambil data volume buku dari sumber data
 interface BookshelfRepository {
-    /** Retrieves list of books from underlying data source */
-    // Notes: List<Book>? NULLABLE
+    // Mengambil daftar buku dari sumber data pokok 
     suspend fun getBooks(query: String): List<Book>?
-
+    // suspend, menunjukkan bahwa metode ini dapat dipanggil dari dalam coroutine
+    // metode getBook digunakan untuk mengambil informasi tentang buku tertentu berdasarkan ID yg diberikan
     suspend fun getBook(id: String): Book?
 }
