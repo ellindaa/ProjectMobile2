@@ -26,13 +26,14 @@ import com.ellinda.bookshelf.ui.screens.components.LoadingScreen
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
-    viewModel: DetailsViewModel,
-    retryAction: () -> Unit,
+    viewModel: DetailsViewModel, // mengelola status UI untuk detail buku
+    retryAction: () -> Unit, // lambda yg akan dipanggil ketika user ingin mencoba memuat data lagi
 ) {
     val uiStateDet = viewModel.uiStateDetail.collectAsState().value
+    // mengumpulkan status UI dari VM dan menyimpannya dalam variabel uiState
 
     when (uiStateDet) {
-
+        // menggunakan pernyataan when untuk menentukan tindakan berdasarkan status UI
         is DetailsUiState.Loading -> {
             LoadingScreen()
         }
@@ -52,6 +53,7 @@ fun DetailScreen(
 @Composable
 fun BookDetails(book: Book) {
     Card(
+        // Card untuk membungkus konten buku
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState()),
@@ -60,14 +62,17 @@ fun BookDetails(book: Book) {
         elevation = CardDefaults.cardElevation()
     ) {
         Column(
+            // Column untuk menyusun elemen UI secara vertikal di dalam kartu
             modifier = Modifier.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
+                // judul buku dengan gaya teks besar
                 text = "Title: " + book.volumeInfo.title,
                 style = MaterialTheme.typography.titleLarge
             )
             AsyncImage(
+                // AsynImage dari coil utk memuat gambar thumbnail buku secara asinkron
                 modifier = Modifier.fillMaxWidth(),
                 model = ImageRequest.Builder(context = LocalContext.current)
                     .data(book.volumeInfo.imageLinks?.thumbnail)
@@ -79,116 +84,42 @@ fun BookDetails(book: Book) {
                 placeholder = painterResource(id = R.drawable.loading_img),
             )
             Spacer(modifier = Modifier.height(24.dp))
+            // Spacer untuk memberikan ruang vertikal antara elemen UI
+            // menampilkan subtitle buku
             Text(
                 text = stringResource(R.string.book_subtitle, book.volumeInfo.subtitle),
                 style = MaterialTheme.typography.titleMedium
             )
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "publisher: " + book.volumeInfo.publisher,
-//                style = MaterialTheme.typography.titleMedium
-//            )
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "publishedDate: " + book.volumeInfo.publishedDate,
-//                style = MaterialTheme.typography.titleMedium
-//            )
-//            Spacer(modifier = Modifier.height(8.dp))
+            // menampilkan daftar penulis buku
             Text(
                 text = stringResource(R.string.book_authors, book.volumeInfo.allAuthors()),
                 style = MaterialTheme.typography.titleMedium
             )
-
             Spacer(modifier = Modifier.height(8.dp))
+            // menampilkan harga buku
             Text(
                 text = stringResource(R.string.book_price, book.saleInfo.getPrice2),
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.height(8.dp))
+            // menampilkan negara tempat buku dijual
             Text(
                 text = "country: " + book.saleInfo.country,
                 style = MaterialTheme.typography.titleMedium
             )
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "isEbook: " + book.saleInfo.isEbook,
-//                style = MaterialTheme.typography.titleMedium
-//            )
-
-//            Spacer(modifier = Modifier.height(8.dp))
-//            if (!book.getPrice().isEmpty()) {
-//                Text(
-//                    text = "listPrice: " + book.saleInfo.listPrice?.amount.toString() + " - " + book.saleInfo.listPrice?.currency,
-//                    style = MaterialTheme.typography.titleMedium
-//                )
-//            }
             Spacer(modifier = Modifier.height(8.dp))
+            // menampilkan harga daftar buku
             Text(
                 text = "listPrice: " + book.saleInfo.getPrice2,
                 style = MaterialTheme.typography.titleMedium
             )
-
-
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "description: " + book.description,
-//                style = MaterialTheme.typography.bodyMedium
-//            )
             Spacer(modifier = Modifier.height(8.dp))
+            // menampilkan deskripsi buku 
             Text(
                 text = "description: " + book.volumeInfo.description,
                 style = MaterialTheme.typography.bodyMedium
             )
-
-
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "smallThumbnail: " + book.volumeInfo.imageLinks?.smallThumbnail,
-//                style = MaterialTheme.typography.titleMedium
-//            )
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "thumbnail: " + book.volumeInfo.imageLinks?.thumbnail,
-//                style = MaterialTheme.typography.titleMedium
-//            )
-//            Spacer(modifier = Modifier.height(8.dp))
-//            Text(
-//                text = "httpsThumbnail: " + book.volumeInfo.imageLinks?.httpsThumbnail,
-//                style = MaterialTheme.typography.titleMedium
-//            )
         }
     }
 }
 
-
-//// Notes: the reason we see the images as the are is because it is using the image placeholder in AsyncImage
-//@Preview(showBackground = true, showSystemUi = true)
-//@Composable
-//fun DetailsScreenPreview() {
-//    BookshelfTheme {
-//        val mockData =
-//            Book(
-//                id = "123",
-//                volumeInfo = VolumeInfo(
-//                    title = "A book",
-//                    description = "Caniss ortum, tanquam bassus exemplar.",
-//                    publishedDate = "11/11/2011",
-//                    authors =  listOf("AAA","aaa"),
-//                    publisher = "John Carter",
-//                    subtitle = "Cunu litist",
-//                    imageLinks = null,
-//                ),
-//                saleInfo = SaleInfo(
-//                    country = "USA",
-//                    isEbook = false,
-//                    listPrice = ListPrice(
-//                        amount = 2.22f,
-//                        currency = "US Dollar"
-//                    )
-//                )
-//            )
-//        BookDetails(
-//            book = mockData,
-//        )
-//    }
-//}
