@@ -13,14 +13,16 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
+// kelas yang mewarisi dari VM, bertanggung jawan untuk mengelola data dan logika bisnis untuk layar detail buku
 class DetailsViewModel(
     private val bookshelfRepository: BookshelfRepository
 ): ViewModel() {
     private val _uiStateDetail = MutableStateFlow<DetailsUiState>(DetailsUiState.Loading)
     val uiStateDetail = _uiStateDetail.asStateFlow()
 
-
+    // fungsi mengambil id buku 
     fun getBook(id: String) {
+        // menjalankan coroutine dalam lingkup VM yg secara otomatis dibatalkan saat VM dihancurkan
         viewModelScope.launch {
             _uiStateDetail.value = try {
                 // Notes: List<Book>? NULLABLE
