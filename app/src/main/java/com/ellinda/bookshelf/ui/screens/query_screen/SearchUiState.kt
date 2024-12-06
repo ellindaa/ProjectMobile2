@@ -1,6 +1,6 @@
 package com.ellinda.bookshelf.ui.screens.query_screen
 
 data class SearchUiState(
-    val query: String = "trump", // Notes: just because I am a lazy typer
+    val query: String = "jogaj",
     val searchStarted: Boolean = false
 )
