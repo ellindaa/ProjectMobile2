@@ -16,15 +16,6 @@ fun LoadingScreen(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center,
         modifier = modifier.fillMaxSize()
     ) {
-        // start nonaktif
-        // Notes: Commented out code, also ok instead of CircularProgressIndicator
-        //Image(
-        //    modifier = Modifier.size(200.dp),
-        //    painter = painterResource(R.drawable.loading_img),
-        //    contentDescription = stringResource(R.string.loading)
-        //)
-        // end nonaktif
-        
         CircularProgressIndicator()
         // komponen yang menunjukkan bahwa proses sedang berlangsung
         // menampilkan indikator pemuatan berbentuk lingkaran
