@@ -1,28 +1,18 @@
-/*
- * Copyright (C) 2023 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package id.ellinda.marsphotos
 
 import android.app.Application
 import id.ellinda.marsphotos.data.AppContainer
 import id.ellinda.marsphotos.data.DefaultAppContainer
 
+// mendeklarasikan kelas MarsPhotoApplication yang mewarisi dari Application
+// kelas ini berfungsi sebagai kelas aplikasi yg dpt mengelola status & dependensi apl secara keseluruhan
 class MarsPhotosApplication : Application() {
-    /** AppContainer instance used by the rest of classes to obtain dependencies */
+    // lateinit berarti properti ini akan diinisialisasi nanti sebelum digunakan
+    // properti ini akan digunakan oleh kelas lain untuk mengakses dependensi
     lateinit var container: AppContainer
     override fun onCreate() {
+        // container = DefaultAppContainer() menginisialisasi properti container dengan instance dari Default AppContainer
+        // aplikasi sekarang memiliki akses ke semua dependensi yang dikelola oleh DefaultAppContainer
         super.onCreate()
         container = DefaultAppContainer()
     }
