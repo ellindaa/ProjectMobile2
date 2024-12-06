@@ -31,8 +31,16 @@ Getting Started
 ### [Get data from the internet](https://developer.android.com/codelabs/basic-android-kotlin-compose-getting-data-internet)
 Learn how to use community-developed libraries to connect to a web service to retrieve and display data in your Android Kotlin compose app. 
 
+
 ### [Add repository and Manual DI](https://developer.android.com/codelabs/basic-android-kotlin-compose-add-repository)
 Learn how to improve the architecture of the app by separating the network calls into a repository.
 
 ### [Load and display images from the internet](https://developer.android.com/codelabs/basic-android-kotlin-compose-load-images)
 Use the Coil library to load and display photos from the internet in your Android Compose app. 
+
+## Tampilan Aplikasi
+<div style="display: flex; flex-wrap: wrap; justify-content: space-around;">
+   <img src="https://github.com/user-attachments/assets/29dd20dd-3cff-46cc-aa7c-867fc01e5e89" alt="Amphibian 5" width="200" style="margin: 10px;"/>
+   <img src="https://github.com/user-attachments/assets/bcaf9308-6580-48b8-8d08-03a0ec847340" alt="Amphibian 6" width="200" style="margin: 10px;"/>
+   <img src="https://github.com/user-attachments/assets/77ee1d6b-180d-46c2-ad0e-4def3764ac56" alt="Amphibian 4" width="200" style="margin: 10px;"/>
+</div>
