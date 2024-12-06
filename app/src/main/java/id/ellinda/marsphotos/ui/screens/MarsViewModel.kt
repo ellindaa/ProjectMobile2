@@ -1,18 +1,3 @@
-/*
- * Copyright (C) 2023 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package id.ellinda.marsphotos.ui.screens
 
 import androidx.compose.runtime.getValue
@@ -31,34 +16,38 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-/**
- * UI state for the Home screen
- */
+// antarmuka yang hanya dapat memiliki subtipe yang didefinisikan di dalamnya
+// digunakan untuk merepresentasikan status UI dari layar utama aplikasi
 sealed interface MarsUiState {
+    // menyimpan daftar foto mars yang berhasil diambil
     data class Success(val photos: List<MarsPhoto>) : MarsUiState
+    // terjadi kesalahan saat mengambil data
     object Error : MarsUiState
+    // data sedang dimuat
     object Loading : MarsUiState
 }
 
+// kelas yang mewarisi ViewModel, dapat mengelola data UI dan logika bisnis untuk layar yang terkait dengan foto mars
 class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : ViewModel() {
-    /** The mutable State that stores the status of the most recent request */
+    // marsUiState, properti yang menyimpan status UI saat ini
+    // menggunakan mutableStateOf untuk membuatnya dapat dipantau oleh Jetpack Compose
     var marsUiState: MarsUiState by mutableStateOf(MarsUiState.Loading)
-        private set
+    private set
+    // menyembunikan setter dari luar kelas, sehingga hanya dapat diubah dari dalam MarsViewModel
 
-    /**
-     * Call getMarsPhotos() on init so we can display status immediately.
-     */
+    // metode getMarsPhotos dipanggil untuk mengambil data foto Mars
     init {
         getMarsPhotos()
     }
 
-    /**
-     * Gets Mars photos information from the Mars API Retrofit service and updates the
-     * [MarsPhoto] [List] [MutableList].
-     */
     fun getMarsPhotos() {
+        // Coroutine, metode dijalankan dalam viewModelScope yeng memungkinkan untuk meluncurkan coroutine yang terikat pada siklus hidup ViewModel
         viewModelScope.launch {
+            // status UI diatur ke Loading sebelum memulai perintaan jaringan
             marsUiState = MarsUiState.Loading
+            // mengambil foto mars dari marsPhotoRepository
+            // jika berhasil, status diubah menjadi success dengan daftar foto
+            // jika terjadi kesalahan status diubah menjadi error
             marsUiState = try {
                 MarsUiState.Success(marsPhotosRepository.getMarsPhotos())
             } catch (e: IOException) {
@@ -69,9 +58,8 @@ class MarsViewModel(private val marsPhotosRepository: MarsPhotosRepository) : Vi
         }
     }
 
-    /**
-     * Factory for [MarsViewModel] that takes [MarsPhotosRepository] as a dependency
-     */
+    // companion objek, cara untuk mendefinisikan anggota statis dalam kotlin
+    // Factory adalah objek akan digunakan untuk membuat instance MarsViewModel
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
