@@ -16,4 +16,8 @@ class Repository {
     suspend fun getDetailsById(id:Int):Response<Details> {
         return RetrofitInstance.api.getDetailsById(id = id)
     }
+    // Fungsi pencarian film berdasarkan kata kunci.
+    suspend fun searchMovies(keyword: String): Response<MoviesList>{
+        return RetrofitInstance.api.searchMovies(query = keyword)
+    }
 }

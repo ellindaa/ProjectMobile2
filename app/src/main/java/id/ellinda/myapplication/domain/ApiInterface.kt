@@ -23,4 +23,11 @@ interface ApiInterface {
     suspend fun getDetailsById(
         @Path("movie_id")id: Int
     ):Response<Details>
+
+    // Mencari film berdasarkan kata kunci.
+    @GET("search/movies")
+    suspend fun searchMovies(
+        @Query("query") query: String
+    ): Response<MoviesList>
+
 }

@@ -1,52 +1,28 @@
-
-
 package id.ellinda.myapplication.navigation
 
 import android.widget.Toast
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.background
-import androidx.compose.foundation.basicMarquee
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Star
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ProgressIndicatorDefaults
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
@@ -57,50 +33,70 @@ import id.ellinda.myapplication.viewModel.MovieViewModel
 @Composable
 fun HomeScreen(navController: NavHostController) {
     val movieViewModel = viewModel<MovieViewModel>()
-    val state = movieViewModel.state
+    val state by movieViewModel.state.collectAsState()
 
-    val configuration = LocalConfiguration.current
-    val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
+    val context = LocalContext.current
+    var searchQuery by remember { mutableStateOf("") }
+
+    // Menggunakan LazyGridState yang sesuai untuk LazyVerticalGrid
+    val gridState = rememberLazyGridState()
+
+    // Menggunakan LaunchedEffect untuk mendeteksi ketika scroll mencapai bawah
+    LaunchedEffect(gridState.firstVisibleItemIndex) {
+        if (gridState.layoutInfo.visibleItemsInfo.lastOrNull()?.index == state.movies.size - 1) {
+            movieViewModel.loadNextItems()
+        }
+    }
 
     Scaffold(
         modifier = Modifier.background(Color.Transparent),
         topBar = {
-            TopBar()
-        }, content = { paddingValues ->
+            TopBar(searchQuery) { query ->
+                searchQuery = query
+                movieViewModel.searchMovies(query)
+            }
+        },
+        content = { paddingValues ->
             LazyVerticalGrid(
-                columns = if (isPortrait) GridCells.Fixed(2) else GridCells.Fixed(3),
-                // columns = GridCells.Fixed(2),
-                Modifier
+                state = gridState,
+                columns = GridCells.Fixed(2),
+                modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .background(
-                        Color.Transparent
-                    ),
-                content = {
-                    items(state.movies.size) {
-                        if (it >= state.movies.size - 1 && !state.endReached && !state.isLoading) {
-                            movieViewModel.loadNextItems()
-                        }
-                        ItemUi(
-                            itemIndex = it, movieList = state.movies,
-                            navController = navController
-                        )
-                    }
-                    item(state.isLoading) {
+                    .background(Color.Transparent)
+            ) {
+
+                val filteredMovies = state.movies.filter { movie ->
+                    searchQuery.isEmpty() || movie.title.contains(searchQuery, ignoreCase = true)
+                }
+
+                items(filteredMovies.size) { index ->
+                    ItemUi(
+                        itemIndex = index,
+                        movieList = filteredMovies,
+                        navController = navController
+                    )
+                }
+
+                // Display loading and error messages
+                if (state.isLoading) {
+                    item {
                         Row(
-                            Modifier
+                            modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp),
                             horizontalArrangement = Arrangement.Center
                         ) {
-                            CircularProgressIndicator(color = ProgressIndicatorDefaults.circularColor)
-                        }
-                        if (!state.error.isNullOrEmpty()){
-                            Toast.makeText(LocalContext.current, state.error, Toast.LENGTH_SHORT).show()
+                            CircularProgressIndicator()
                         }
                     }
                 }
-            )
+
+                if (!state.error.isNullOrEmpty()) {
+                    Toast.makeText(context, state.error, Toast.LENGTH_SHORT).show()
+                }
+            }
+
         },
         containerColor = Color.Transparent
     )
@@ -110,7 +106,7 @@ fun HomeScreen(navController: NavHostController) {
 @Composable
 fun ItemUi(itemIndex: Int, movieList: List<Data>, navController: NavHostController) {
     Card(
-        Modifier
+        modifier = Modifier
             .wrapContentSize()
             .padding(10.dp)
             .clickable {
@@ -129,8 +125,8 @@ fun ItemUi(itemIndex: Int, movieList: List<Data>, navController: NavHostControll
             )
             Column(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .background(Color.LightGray.copy(.7f))
+                    .fillMaxWidth()
+                    .background(Color.LightGray.copy(alpha = 0.7f))
                     .padding(6.dp)
             ) {
                 Text(
@@ -142,24 +138,17 @@ fun ItemUi(itemIndex: Int, movieList: List<Data>, navController: NavHostControll
                     color = Color.Black,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
-                    style = TextStyle(
-                        shadow = Shadow(
-                            Color(0xFFFC6603), offset = Offset(1f, 1f), 3f
-                        )
-                    )
+                    style = TextStyle(fontSize = 14.sp)
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(Modifier.align(Alignment.End)) {
-                    Icon(imageVector = Icons.Rounded.Star, contentDescription = "")
+                    Icon(imageVector = Icons.Rounded.Star, contentDescription = null)
                     Text(
-                        text = movieList[itemIndex].imdb_rating,
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(start = 8.dp),
+                        text = movieList[itemIndex].imdb_rating.toString(),
+                        modifier = Modifier.padding(start = 8.dp),
                         fontWeight = FontWeight.Bold,
                         color = Color.Black,
-                        maxLines = 2
+                        maxLines = 1
                     )
                 }
             }
@@ -167,13 +156,37 @@ fun ItemUi(itemIndex: Int, movieList: List<Data>, navController: NavHostControll
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBar() {
-    TopAppBar(
-        title = { Text(text = "Movie App") },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.White.copy(.4f)
+fun TopBar(searchQuery: String, onSearchQueryChanged: (String) -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(120.dp)
+            .background(Color.White.copy(alpha = 0.4f))
+            .padding(8.dp)
+            .offset(y = 16.dp)
+    ) {
+        Text(
+            text = "Movie App",
+            style = TextStyle(
+                color = Color.Black,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
+            textAlign = TextAlign.Center
         )
-    )
+        OutlinedTextField(
+            value = searchQuery,
+            onValueChange = { query -> onSearchQueryChanged(query) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color.White),
+            placeholder = { Text("Search movies...") },
+            singleLine = true
+        )
+    }
 }

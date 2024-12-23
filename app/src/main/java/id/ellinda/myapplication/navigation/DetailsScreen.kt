@@ -22,6 +22,8 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -45,8 +47,11 @@ import id.ellinda.myapplication.viewModel.MovieViewModel
 fun DetailsScreen(id: Int) {
     val movieViewModel = viewModel<MovieViewModel>()
     movieViewModel.id = id
-    movieViewModel.getDetailsById()
-    val state = movieViewModel.state
+    movieViewModel.getDetailsById(id)
+
+    // val state = movieViewModel.state
+    // Menggunakan collectAsState untuk mendapatkan data terbaru dari StateFlow
+    val state by movieViewModel.state.collectAsState()
 
     val details = state.detailsData
 
