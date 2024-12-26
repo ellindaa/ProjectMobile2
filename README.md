@@ -1,7 +1,7 @@
 # Project UAS
 
 
-This project is a **UAS (Ujian Akhir Semester)** project, which involves the development of a **Movie App**. The app allows users to browse, search, and view details about movies. It utilizes an API to fetch real-time movie data, offering features such as displaying movie posters, ratings, and movie details.
+This project is a **Final Semester Exam (UAS)** project, which involves the development of a **Movie App**. The app allows users to browse, search, and view details about movies. It utilizes an API to fetch real-time movie data, offering features such as displaying movie posters, ratings, and movie details.
 
 The purpose of this project is to demonstrate the ability to integrate APIs and display dynamic content in a user-friendly interface.
 
