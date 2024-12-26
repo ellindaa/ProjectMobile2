@@ -15,36 +15,36 @@ import kotlinx.coroutines.launch
 
 class MovieViewModel : ViewModel() {
 
-    // Inisialisasi repository untuk mendapatkan data film
+    // TODO: Inisialisasi repository untuk mendapatkan data film
     private val repository = Repository()
 
-    // Menyimpan dan mengelola state dari tampilan menggunakan StateFlow
+    // TODO: Menyimpan dan mengelola state dari tampilan menggunakan StateFlow
     private val _state = MutableStateFlow(ScreenState())
     val state: StateFlow<ScreenState> get() = _state.asStateFlow()
 
-    // Menyimpan id untuk request detail berdasarkan id
+    // TODO: Menyimpan id untuk request detail berdasarkan id
     var id by mutableStateOf(0)
 
-    // Pagination untuk memuat data secara bertahap
+    // TODO: Pagination untuk memuat data secara bertahap
     private val pagination = PaginationFactory(
         initialPage = _state.value.page, // Halaman awal
         onLoadUpdated = { isLoading ->
             updateState { copy(isLoading = isLoading) }
         },
         onRequest = { nextPage ->
-            // Meminta data film untuk halaman selanjutnya
+            // TODO: Meminta data film untuk halaman selanjutnya
             repository.getMovieList(nextPage)
         },
         getNextKey = {
-            // Mendapatkan halaman berikutnya
+            // TODO: Mendapatkan halaman berikutnya
             _state.value.page + 1
         },
         onError = { error ->
-            // Menangani error
+            // TODO: Menangani error
             updateState { copy(error = error?.localizedMessage) }
         },
         onSuccess = { items, newPage ->
-            // Memperbarui state dengan data film yang berhasil dimuat
+            // TODO: Memperbarui state dengan data film yang berhasil dimuat
             updateState {
                 copy(
                     movies = _state.value.movies + items.data,
@@ -55,12 +55,12 @@ class MovieViewModel : ViewModel() {
         }
     )
 
-    // Inisialisasi dengan memuat item pertama pada halaman awal
+    // TODO: Inisialisasi dengan memuat item pertama pada halaman awal
     init {
         loadNextItems()
     }
 
-    // Fungsi untuk memuat halaman berikutnya
+    // TODO: Fungsi untuk memuat halaman berikutnya
     fun loadNextItems(){
 //        if (_state.value.isLoading || _state.value.endReached)
 //    return
@@ -69,29 +69,29 @@ class MovieViewModel : ViewModel() {
         }
     }
 
-    // Fungsi untuk mendapatkan detail film berdasarkan id
+    // TODO: Fungsi untuk mendapatkan detail film berdasarkan id
     fun getDetailsById(movieId: Int) {
         id = movieId
         viewModelScope.launch {
             try {
-                val response = repository.getDetailsById(id = id) // Mengambil detail film
+                val response = repository.getDetailsById(id = id) // TODO: Mengambil detail film
                 if (response.isSuccessful) {
-                    // Menyimpan data detail film ke dalam state
+                    // TODO: Menyimpan data detail film ke dalam state
                     updateState { copy(detailsData = response.body()!!) }
                 }
             } catch (e: Exception) {
-                // Menangani error saat mengambil detail film
+                // TODO: Menangani error saat mengambil detail film
                 updateState { copy(error = e.message) }
             }
         }
     }
 
-    // Fungsi pencarian film berdasarkan kata kunci
+    // TODO: Fungsi pencarian film berdasarkan kata kunci
     fun searchMovies(keyword: String) {
         viewModelScope.launch {
             try {
                 updateState { copy(isLoading = true) }
-                val response = repository.searchMovies(keyword) // Fungsi di repository
+                val response = repository.searchMovies(keyword) // TODO: Fungsi di repository
                 if (response.isSuccessful) {
                     updateState {
                         copy(
@@ -119,13 +119,13 @@ class MovieViewModel : ViewModel() {
         }
     }
 
-    // Fungsi untuk memperbarui state
+    // TODO: Fungsi untuk memperbarui state
     private fun updateState(transform: ScreenState.() -> ScreenState) {
         _state.value = _state.value.transform()
     }
 }
 
-// Data class untuk menyimpan state dari tampilan
+// TODO: Data class untuk menyimpan state dari tampilan
 data class ScreenState(
     val movies: List<Data> = emptyList(),
     val page: Int = 1,
