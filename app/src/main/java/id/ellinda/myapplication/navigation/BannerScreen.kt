@@ -72,7 +72,6 @@ fun BannerScreen(navController: NavHostController) {
                 )
             )
 
-            // Define the linear gradient brush correctly.
             val linearGradientBrush = Brush.linearGradient(
                 colors = listOf(
                     Color(0xFFB226E1),
