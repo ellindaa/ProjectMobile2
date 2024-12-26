@@ -49,8 +49,7 @@ fun DetailsScreen(id: Int) {
     movieViewModel.id = id
     movieViewModel.getDetailsById(id)
 
-    // val state = movieViewModel.state
-    // Menggunakan collectAsState untuk mendapatkan data terbaru dari StateFlow
+    // TODO: Mengambil data terbaru dari StateFlow
     val state by movieViewModel.state.collectAsState()
 
     val details = state.detailsData
@@ -59,8 +58,8 @@ fun DetailsScreen(id: Int) {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.TopCenter
     ) {
-        BackGroundPoster(details = details)
-        ForegroundPoster(details = details)
+        BackGroundPoster(details = details) // TODO: menampilkan latar belakang poster
+        ForegroundPoster(details = details) // TODO: menampilkan poster utama di depan
         Column(
             Modifier
                 .padding(start = 20.dp, end = 20.dp, bottom = 50.dp)
@@ -75,10 +74,10 @@ fun DetailsScreen(id: Int) {
                 lineHeight = 40.sp,
                 textAlign = TextAlign.Center
             )
-            Rating(details = details, modifier = Modifier)
-            TextBuilder(icon = Icons.Filled.Info, title = "Summery:", bodyText = details.plot)
-            TextBuilder(icon = Icons.Filled.Person, title = "Actors:", bodyText = details.actors)
-            ImageRow(details = details)
+            Rating(details = details, modifier = Modifier) // TODO: menampilkan rating , durasi, dan tanggal rilis
+            TextBuilder(icon = Icons.Filled.Info, title = "Summery:", bodyText = details.plot) // TODO: sinopsis film
+            TextBuilder(icon = Icons.Filled.Person, title = "Actors:", bodyText = details.actors) // TODO: daftar aktor
+            ImageRow(details = details) // TODO: gambar dibuat dalam bentuk horizontal scroll 
         }
     }
 }
@@ -95,7 +94,7 @@ fun ImageRow(details: Details) {
                         .height(70.dp)
                         .clip(RoundedCornerShape(12.dp)),
                     contentScale = ContentScale.Crop
-                )
+                ) // TODO: menampilkan setiap gambar dari daftar images
             }
         }
     }
@@ -108,7 +107,7 @@ fun TextBuilder(icon: ImageVector, title: String, bodyText: String) {
             imageVector = icon,
             contentDescription = "Person",
             tint = Color.White
-        )
+        ) // TODO: menampilkan ikon disebelah atas teks
         Text(
             text = title,
             Modifier.padding(start = 10.dp),
@@ -117,7 +116,7 @@ fun TextBuilder(icon: ImageVector, title: String, bodyText: String) {
             color = Color.White
         )
     }
-    Text(text = bodyText, color = Color.White)
+    Text(text = bodyText, color = Color.White) 
 }
 
 @Composable
@@ -128,7 +127,7 @@ fun Rating(details: Details, modifier: Modifier) {
             text = details.rated,
             modifier.padding(start = 6.dp),
             color = Color.White
-        )
+        ) // TODO: menampilkan rating film
         Spacer(modifier = modifier.width(25.dp))
         Icon(
             painter = painterResource(id = R.drawable.time_24),
@@ -139,14 +138,14 @@ fun Rating(details: Details, modifier: Modifier) {
             text = details.runtime,
             modifier.padding(start = 6.dp),
             color = Color.White
-        )
+        ) // TODO: menampilkan durasi film
         Spacer(modifier = modifier.width(25.dp))
         Icon(imageVector = Icons.Filled.DateRange, contentDescription = "", tint = Color.White)
         Text(
             text = details.released,
             modifier.padding(start = 6.dp),
             color = Color.White
-        )
+        ) // TODo: menampilkan tanggal rilis
     }
 }
 
@@ -166,7 +165,7 @@ fun ForegroundPoster(details: Details) {
             Modifier
                 .width(250.dp)
                 .clip(RoundedCornerShape(16.dp))
-        )
+        ) // TODo: menampilkan poster film utama
         Box(
             modifier = Modifier
                 .matchParentSize()
@@ -196,7 +195,7 @@ fun BackGroundPoster(details: Details) {
             modifier = Modifier
                 .fillMaxWidth()
                 .alpha(0.6f)
-        )
+        ) // TODO: menampilkan poster sebagai latar belakang
         Box(
             modifier = Modifier
                 .matchParentSize()
