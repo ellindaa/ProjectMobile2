@@ -82,12 +82,8 @@ fun BannerScreen(navController: NavHostController) {
                 ),
                 start = Offset(Float.POSITIVE_INFINITY, 0f),
                 end = Offset(0f, Float.POSITIVE_INFINITY),
-//                start = Offset(0f, 0f),
-                // Set the correct start point for the gradient.
-//                end = Offset(1000f, 1000f)
-            // Set the correct end point for the gradient.
             )
-
+            // TODO pada saat user menekan tombol 'Get In' maka akan di arahkan pada tampilan HomeScreen
             Button(
                 onClick = { navController.navigate("Home Screen") },
                 modifier = Modifier
