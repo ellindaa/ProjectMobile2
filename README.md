@@ -11,8 +11,21 @@ The purpose of this project is to demonstrate the ability to integrate APIs and 
 Below are some screenshots of the Movie App:
 
 <div align="center" style="display: flex; justify-content: space-between; gap: 10px;">
-  <img src="https://github.com/user-attachments/assets/eccbfd43-3812-4e20-b65c-3fc23de31aea" width="200"/>
-  <img src="https://github.com/user-attachments/assets/344a81b8-602c-4493-97de-12e725bb52ad" width="200"/>
-  <img src="https://github.com/user-attachments/assets/1d616ca7-83a8-4ed4-af72-7c34f5109772" width="200"/>
-  <img src="https://github.com/user-attachments/assets/902873c2-d2f9-4f0c-b3f0-9b037f46ca67" width="200"/>
+  <img src="https://github.com/user-attachments/assets/e115ac71-ed1b-4775-9e18-18e943e63bc6" width="160"/>
+  <img src="https://github.com/user-attachments/assets/6aed2cca-d833-4642-abec-2bc62f0013a6" width="160"/>
+  <img src="https://github.com/user-attachments/assets/b7bd6571-8e2c-4daa-ae48-3c72d6baa8f3" width="160"/>
+  <img src="https://github.com/user-attachments/assets/d98f32df-de46-486d-bf23-ca2955e74e8f" width="160"/>
+  <img src="https://github.com/user-attachments/assets/36a16641-b0c5-4ceb-a1d4-58797776ea2d" width="160"/>
+  <img src="https://github.com/user-attachments/assets/e5fac6e1-7658-4a90-b568-ce5d8a2e4c75" width="160"/>
+  
+
+
+
+
+  
+
+
+  
+
+
 </div>
